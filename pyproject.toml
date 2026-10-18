@@ -38,6 +38,7 @@ pythonpath = ["scripts"]
 addopts = ["--strict-markers", "-ra"]
 markers = [
     "smoke: comprobaciones mínimas y muy rápidas de que el proyecto arranca",
+    "repositorio: ningún fichero grande se versiona fuera de Git LFS",
     "unit: tests unitarios de cada función del pipeline (incluye los test_bloque*.py)",
     "esquema: estructura de los datos (columnas, orden y tipos)",
     "valores: rangos y dominios válidos de los valores",

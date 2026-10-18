@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CUALQUIER RAMA  ·  Guardián de ficheros grandes
+#   Falla si se versiona un fichero de más de 2 MB fuera de Git LFS.
+#   No necesita descargar el contenido de LFS: comprueba lo que guarda git.
+# ─────────────────────────────────────────────────────────────────────────────
+name: "7 · Ficheros grandes: ninguno fuera de Git LFS"
+
+on:
+  push:
+    paths-ignore: ["docs/**", "**.md"]
+  pull_request:
+    paths-ignore: ["docs/**", "**.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tamanos:
+    name: Tamaño de los ficheros versionados
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false        # con 'true' se descargaría el contenido real de los ficheros LFS
+      - uses: ./.github/actions/preparar-entorno
+
+      - name: Ningún fichero grande fuera de LFS
+        run: uv run pytest -m repositorio
+
+      - name: Los 10 ficheros más grandes del repositorio
+        if: always()
+        run: |
+          {
+            echo "### Los 10 ficheros más grandes guardados en git"
+            echo "| Tamaño (KB) | Fichero |"
+            echo "|---:|---|"
+            git ls-tree -r -l HEAD | sort -k4 -n -r | head -10 | awk '{printf "| %.1f | %s |\n", $4/1024, $5}'
+            echo
+            echo "Ficheros gestionados con Git LFS:"
+            echo '```'
+            git lfs ls-files --size || echo "(ninguno)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
