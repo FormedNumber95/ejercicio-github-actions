@@ -36,6 +36,7 @@ OBJETIVO = "alto_alcance"
 VARIABLES_NUMERICAS = [
     "likes", "comentarios", "compartidos", "seguidores", "seguidos",
     "publicaciones_totales", "edad", "n_hashtags", "mes",
+    "engagement_rate",  # con esta variable el roc_auc mejora
 ]
 VARIABLES_CATEGORICAS = ["tipo_contenido", "tipo_cuenta"]
 VARIABLES = VARIABLES_NUMERICAS + VARIABLES_CATEGORICAS
