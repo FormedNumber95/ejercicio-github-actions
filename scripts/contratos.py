@@ -38,7 +38,7 @@ CONTRATO_USUARIOS = DataFrameSchema(
         "id_usuario": Column(int, Check.ge(1), unique=True),
         "nombre": Column(str),
         "apellidos": Column(str),
-        "edad": Column(float, Check.in_range(18, 55), nullable=True),
+        "edad": Column(float, Check.in_range(18, 50), nullable=True),
         "ciudad": Column(str, nullable=True),
         "pais": Column(str, Check.isin(PAISES)),
         "genero": Column(str, Check.isin(GENEROS)),
