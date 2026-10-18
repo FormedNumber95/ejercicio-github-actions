@@ -2,7 +2,15 @@
 # Linux y Windows de GitHub Actions trabajen con los mismos ficheros
 * text=auto
 
+# ── Git LFS ───────────────────────────────────────────────────────────────────
+# Práctica de ficheros grandes: docs/GUIA_FICHEROS_GRANDES.md
+# Las reglas de LFS las añade el comando 'git lfs track' al final de este
+# fichero. Ejemplos de las que se usarán en la práctica (NO están activas):
+#
+#   output_graficos/**/*.html filter=lfs diff=lfs merge=lfs -text
+#   data/usuarios_grande.* filter=lfs diff=lfs merge=lfs -text
 # Ficheros binarios: no se tocan
 *.xlsx binary
 *.parquet binary
 *.png binary
+output_graficos/*.html filter=lfs diff=lfs merge=lfs -text
