@@ -57,53 +57,60 @@ Al ejecutar los cuadernos se generan estos ficheros (hoy están en `.gitignore`)
 
 Trabaja en tu repositorio de GitHub, en la rama `feature/ficheros-grandes`.
 
+> **Esta rama trae un error a propósito:** alguien ha versionado `output_graficos/dashboard.html` (4,8 MB) **sin Git LFS** para poder consultar el dashboard sin ejecutar los cuadernos. Primero vas a ver el error en GitHub Actions y después lo corregirás.
+
 ### 4.0 Preparación
 
 ```powershell
 git lfs install                    # una sola vez por ordenador
-git checkout feature/ficheros-grandes
+git switch feature/ficheros-grandes
 uv sync
-uv run pytest --nbmake notebooks   # ejecuta los cuadernos y genera los ficheros (≈ 1,5 min)
-uv run pytest -m repositorio       # el "guardián" de ficheros grandes: debe pasar
 ```
 
 El marcador `repositorio` (`tests/repositorio/test_ficheros_grandes.py`) comprueba en el **último commit** que ningún fichero de más de **2 MB** está versionado fuera de LFS. El workflow **7 · Ficheros grandes** lo ejecuta en cada push.
 
-### 4.1 Versionar un fichero grande SIN LFS (y ver que el guardián lo detecta)
+### 4.1 Ver el error (antes de corregir nada)
+
+1. En GitHub, pestaña **Actions** → workflow **7 · Ficheros grandes** → la ejecución de la rama `feature/ficheros-grandes`. Está en **rojo**: abre el job y lee el mensaje del test (qué fichero y cuánto ocupa). Si no hay ninguna ejecución, lánzala con **Run workflow** eligiendo esa rama.
+2. Mira el resumen de la ejecución: la tabla de los 10 ficheros más grandes muestra el dashboard.
+3. Reproduce el error en tu ordenador:
 
 ```powershell
-git add -f output_graficos/dashboard.html     # -f: añade aunque esté en .gitignore
-git commit -m "Prueba: dashboard sin LFS"
-uv run pytest -m repositorio                  # FALLA: indica el fichero y su tamaño
+uv run pytest -m repositorio                       # FALLA: indica el fichero y su tamaño
 git ls-tree -r -l HEAD | Select-String dashboard   # git guarda los 4,8 MB enteros
+git log --oneline -- output_graficos/dashboard.html   # qué commit lo añadió
 ```
 
-**No hagas push.** Deshaz el commit conservando el fichero en tu carpeta:
+### 4.2 Corregirlo con Git LFS
 
 ```powershell
-git reset HEAD~1
-```
-
-> ¿Y si ya hubieras hecho push? El fichero quedaría en la historia de GitHub aunque lo borrases después. Para sacarlo habría que reescribir la historia (`git lfs migrate import`, ver ampliación).
-
-### 4.2 Versionar el mismo fichero CON LFS
-
-```powershell
-git lfs track "output_graficos/*.html"     # añade la regla a .gitattributes
-git diff .gitattributes                    # observa la línea añadida
+git rm --cached output_graficos/dashboard.html   # lo saca del índice de git (el fichero sigue en tu carpeta)
+git lfs track "output_graficos/*.html"          # añade la regla a .gitattributes
+git diff .gitattributes                         # observa la línea añadida
 git add .gitattributes
-git add -f output_graficos/dashboard.html
+git add -f output_graficos/dashboard.html       # -f: está en .gitignore; ahora entra por LFS
 git commit -m "Dashboard versionado con Git LFS"
 
-git lfs ls-files                           # lista los ficheros gestionados por LFS
-git show HEAD:output_graficos/dashboard.html   # en git solo hay un puntero
-uv run pytest -m repositorio               # ahora PASA
+git lfs ls-files                                # lista los ficheros gestionados por LFS
+git show HEAD:output_graficos/dashboard.html    # en git solo hay un puntero
+uv run pytest -m repositorio                    # ahora PASA
 git push
 ```
 
-En GitHub, abre el fichero: aparece la etiqueta **Stored with Git LFS**. En Actions, el workflow 7 queda en verde y su resumen muestra los ficheros de LFS.
+En GitHub, abre el fichero: aparece la etiqueta **Stored with Git LFS**. En Actions, el workflow 7 queda en **verde** y su resumen muestra los ficheros de LFS.
 
-### 4.3 Clonar sin descargar los ficheros grandes
+### 4.3 El fichero sigue en la historia
+
+El guardián comprueba el **último** commit, pero el commit que añadió el dashboard sin LFS sigue en la historia y cualquiera que clone el repositorio se lo descarga.
+
+```powershell
+git count-objects -vH                           # tamaño del repositorio en tu disco
+git log --oneline --stat -- output_graficos/dashboard.html
+```
+
+Para limpiar la historia habría que reescribirla (`git lfs migrate import`, ver la ampliación). Por eso es mejor que el guardián falle **antes** de integrar el cambio, en el pull request.
+
+### 4.4 Clonar sin descargar los ficheros grandes
 
 ```powershell
 cd ..
@@ -118,11 +125,11 @@ git lfs pull                                 # descarga el contenido real
 
 Es lo que hace GitHub Actions por defecto: `actions/checkout` **no** descarga LFS salvo que se indique `lfs: true`. Míralo en `.github/workflows/ficheros-grandes.yml`.
 
-### 4.4 Cuando git-lfs no está instalado
+### 4.5 Cuando git-lfs no está instalado
 
 Pregunta para pensar: si un compañero sin `git lfs install` hace commit de un fichero que cumple una regla de `.gitattributes`, ¿qué se guarda? El segundo test del guardián (`test_los_ficheros_con_regla_lfs_se_guardan_como_punteros`) detecta justo ese caso.
 
-### 4.5 Decidir con criterio
+### 4.6 Decidir con criterio
 
 Para cada fichero de la tabla del apartado 1, decide y justifica qué estrategia usarías: **no versionar**, **artefacto de CI** o **Git LFS**. Pista: ¿se puede regenerar? ¿cuánto tarda? ¿lo necesita alguien que no ejecute el código?
 
