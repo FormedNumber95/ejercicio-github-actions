@@ -249,7 +249,7 @@ def top_creadores(df_merged, n=10):
     """
     engagement_por_usuario = (
         df_merged.groupby(["id_usuario", "nombre", "tipo_cuenta"], observed=True)["engagement_rate"]
-        .mean()
+        .median()  # "más robusta frente a valores extremos"... pero cambia el resultado
         .reset_index(name="engagement_promedio")
     )
     return engagement_por_usuario.sort_values("engagement_promedio", ascending=False).head(n)
