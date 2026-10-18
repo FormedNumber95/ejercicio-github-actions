@@ -1,0 +1,101 @@
+id_usuario,nombre,apellidos,edad,ciudad,pais,genero,fecha_registro,tipo_cuenta,seguidores,seguidos,publicaciones_totales,activo,bio
+1,Ana,Fernandez Gonzalez,24,Granada,Espana,F,2022-05-14,free,2016,52,15,True,Explorando el mundo de la IA
+2,Pablo,Fernandez Alvarez,55,,Espana,M,2023-11-30,premium,3446,452,174,True,Explorando el mundo de la IA
+3,Miguel,Ruiz Ruiz,34,Alicante,Espana,M,2022-02-14,premium,802,100,282,True,Estudiante de Big Data
+4,Pablo,Gil Fernandez,36,Vitoria,Espana,M,2022-02-17,free,385,304,232,True,Amante del codigo limpio
+5,Alejandro,Vazquez Perez,52,Bilbao,Espana,M,2023-08-03,free,5000,724,285,True,Amante del codigo limpio
+6,Elena,Diaz Gomez,22,Las Palmas,Espana,F,2021-03-11,free,2594,691,255,True,Analista de datos
+7,Raul,Morales Dominguez,45,Malaga,Espana,M,2022-11-09,premium,2162,525,46,True,Desarrolladora de software | Python lover
+8,Daniel,Diaz Diaz,47,Palma,Espana,M,2023-10-25,creator,5163,758,58,True,Freelance developer
+9,Patricia,Hernandez Perez,,Alicante,Espana,F,2022-10-22,free,2414,800,91,True,Desarrolladora de software | Python lover
+10,Ivan,Gonzalez Ruiz,28,Cordoba,Espana,M,2023-05-11,creator,14035,351,250,True,Amante del codigo limpio
+11,Cristina,Fernandez Dominguez,23,Murcia,Colombia,F,2022-12-26,free,484,804,64,True,Analista de datos
+12,Ivan,Rodriguez Torres,30,Malaga,Espana,M,2022-02-03,creator,28730,468,460,True,Desarrolladora de software | Python lover
+13,Carlos,Fernandez Dominguez,,Alicante,Espana,M,2020-05-18,creator,37301,947,16,False,Desarrolladora de software | Python lover
+14,Adrian,Gonzalez Morales,54,Sevilla,Espana,M,2021-01-24,free,4427,116,49,True,Amante del codigo limpio
+15,Maria,Diaz Morales,39,Barcelona,Espana,F,2023-01-03,free,506,479,71,True,Estudiante de IABD
+16,Laura,Sanchez Martinez,52,Barcelona,Espana,F,2020-12-06,premium,4518,436,248,True,Machine learning enthusiast
+17,Carlos,Alvarez Moreno,45,Alicante,Espana,M,2023-09-17,premium,2182,755,249,True,Estudiante de IABD
+18,Raul,Martinez Martinez,55,Granada,Espana,M,2020-04-26,free,2579,540,41,False,Desarrolladora de software | Python lover
+19,Elena,Dominguez Fernandez,55,Las Palmas,Espana,F,2023-04-10,premium,992,598,267,True,Estudiante de IABD
+20,Elena,Gonzalez Gil,37,Granada,Espana,F,2020-01-20,free,3252,489,318,False,
+21,Alejandro,Lopez Fernandez,41,Murcia,Mexico,M,2021-09-11,free,2869,646,413,True,Apasionado de los datos y la tecnologia
+22,Carmen,Sanchez Sanchez,53,Valencia,Mexico,F,2021-12-03,free,2176,228,351,True,Estudiante de IABD
+23,Luis,Gomez Martinez,18,Bilbao,Espana,M,2020-11-26,free,3479,779,226,True,Machine learning enthusiast
+24,Antonio,Ruiz Dominguez,53,Bilbao,Espana,M,2020-03-22,premium,305,940,183,True,Explorando el mundo de la IA
+25,Raul,Fernandez Perez,29,Madrid,Espana,M,2024-05-21,premium,1276,973,210,False,Explorando el mundo de la IA
+26,Carmen,Romero Fernandez,30,Murcia,Espana,F,2021-04-01,premium,327,44,337,True,Amante del codigo limpio
+27,Alejandro,Diaz Gil,52,Madrid,Espana,M,2020-12-31,free,4183,614,492,False,Apasionado de los datos y la tecnologia
+28,Fernando,Navarro Sanchez,42,Sevilla,Mexico,M,2022-06-12,premium,4976,21,266,False,Freelance developer
+29,Marta,Lopez Gil,39,Valladolid,Argentina,F,2021-09-07,free,3543,539,158,True,Amante del codigo limpio
+30,Antonio,Gil Diaz,29,Valencia,Espana,M,2021-09-14,free,3454,313,107,True,Estudiante de Big Data
+31,Marcos,Navarro Romero,28,Valencia,Espana,M,2023-06-22,premium,1760,363,47,False,Explorando el mundo de la IA
+32,Pablo,Martinez Fernandez,48,Cordoba,Espana,M,2023-07-13,free,210,609,99,True,Machine learning enthusiast
+33,Carlos,Fernandez Perez,51,Palma,Espana,M,2022-07-23,free,3492,156,410,True,Freelance developer
+34,Beatriz,Navarro Hernandez,53,Bilbao,Espana,F,2022-07-10,creator,48138,285,384,True,Estudiante de IABD
+35,Elena,Lopez Molina,36,Zaragoza,Espana,F,2020-06-14,free,3613,161,77,True,Data scientist en formacion
+36,Daniel,Alvarez Hernandez,21,Malaga,Colombia,M,2023-04-11,free,4455,988,356,True,Estudiante de Big Data
+37,Sergio,Hernandez Torres,52,Granada,Espana,M,2021-07-12,free,3204,466,248,True,Amante del codigo limpio
+38,Lucia,Ramos Torres,19,Las Palmas,Espana,F,2020-06-20,premium,1055,678,219,True,Analista de datos
+39,Fernando,Jimenez Jimenez,42,Vitoria,Espana,M,2022-08-21,free,3734,39,383,True,Amante del codigo limpio
+40,Luis,Rodriguez Garcia,27,Murcia,Espana,M,2021-03-22,free,2035,496,358,True,Amante del codigo limpio
+41,Carmen,Sanchez Dominguez,19,Las Palmas,Espana,F,2022-03-23,free,2558,984,366,True,Estudiante de Big Data
+42,Carmen,Sanchez Dominguez,20,Malaga,Espana,F,2022-11-02,free,4928,683,174,True,Machine learning enthusiast
+43,Sergio,Hernandez Perez,51,Valencia,Espana,M,2024-05-05,premium,1263,515,238,True,Estudiante de Big Data
+44,Laura,Fernandez Ortega,47,Valladolid,Espana,F,2022-10-09,free,3702,891,166,True,Explorando el mundo de la IA
+45,Alejandro,Gomez Torres,18,Sevilla,Argentina,M,2022-04-12,creator,46952,520,284,True,Analista de datos
+46,Ana,Fernandez Diaz,33,Las Palmas,Espana,F,2022-12-23,free,2420,372,217,False,Freelance developer
+47,Isabel,Fernandez Sanchez,30,Alicante,Colombia,F,2023-11-14,free,2069,209,98,True,Analista de datos
+48,Claudia,Sanchez Rodriguez,36,Bilbao,Mexico,F,2022-12-29,creator,19546,149,140,True,Apasionado de los datos y la tecnologia
+49,Sara,Garcia Dominguez,36,Murcia,Espana,F,2021-06-01,premium,850,983,441,True,Desarrolladora de software | Python lover
+50,Luis,Dominguez Moreno,23,Barcelona,Espana,M,2023-05-26,free,1232,630,404,True,Freelance developer
+51,Cristina,Moreno Dominguez,21,Alicante,Colombia,F,2021-03-01,creator,29103,660,108,True,Desarrolladora de software | Python lover
+52,Miguel,Hernandez Alvarez,48,Sevilla,Espana,M,2023-12-10,free,31,900,232,True,Explorando el mundo de la IA
+53,Andrea,Sanchez Torres,32,Granada,Espana,F,2020-05-26,free,3492,81,84,True,Estudiante de Big Data
+54,Cristina,Alvarez Molina,37,Valencia,Espana,F,2022-06-15,premium,1028,102,306,True,Machine learning enthusiast
+55,Ana,Gil Dominguez,55,Cordoba,Espana,F,2023-03-26,free,1885,61,390,True,Analista de datos
+56,Alejandro,Hernandez Vazquez,49,Murcia,Espana,M,2021-10-19,free,4805,706,53,False,Amante del codigo limpio
+57,Nuria,Alvarez Lopez,38,Barcelona,Espana,F,2022-11-19,premium,310,864,0,True,Freelance developer
+58,Ivan,Vazquez Alvarez,21,Palma,Espana,M,2022-06-16,free,4093,921,357,True,Apasionado de los datos y la tecnologia
+59,Elena,Torres Garcia,53,Sevilla,Espana,F,2022-08-03,free,2555,989,60,True,Data scientist en formacion
+60,Claudia,Romero Romero,33,Bilbao,Espana,F,2022-11-06,free,3413,784,450,True,Desarrolladora de software | Python lover
+61,Alicia,Gomez Garcia,36,Vitoria,Espana,F,2022-09-29,free,4169,906,76,True,Analista de datos
+62,Alba,Jimenez Rodriguez,33,Sevilla,Espana,F,2020-03-30,premium,3740,345,381,True,Machine learning enthusiast
+63,Sara,Gonzalez Navarro,55,Barcelona,Espana,F,2020-07-23,premium,313,558,466,True,Data scientist en formacion
+64,Sara,Gomez Jimenez,43,Vitoria,Mexico,F,2022-12-28,free,3856,409,488,True,Analista de datos
+65,Miguel,Fernandez Morales,23,Barcelona,Mexico,M,2020-07-24,free,2364,474,85,True,
+66,Cristina,Hernandez Gonzalez,33,Las Palmas,Espana,F,2020-12-14,free,3080,199,40,True,Machine learning enthusiast
+67,Oscar,Alvarez Vazquez,34,,Espana,M,2021-08-12,free,1912,713,279,True,Analista de datos
+68,Cristina,Alvarez Moreno,30,Vitoria,Espana,NB,2022-02-20,premium,2058,605,183,True,
+69,Nuria,Dominguez Gil,21,Alicante,Espana,F,2024-05-07,free,76,838,117,True,Amante del codigo limpio
+70,Alejandro,Vazquez Vazquez,20,,Espana,M,2024-02-08,free,805,154,46,False,Amante del codigo limpio
+71,Antonio,Navarro Navarro,35,Valencia,Espana,M,2021-08-27,premium,3007,784,445,True,Desarrolladora de software | Python lover
+72,Jorge,Ruiz Lopez,,Palma,Espana,M,2023-10-09,premium,4575,786,344,True,Machine learning enthusiast
+73,Carmen,Garcia Ramos,53,Las Palmas,Espana,F,2023-07-25,free,3872,863,237,False,Estudiante de IABD
+74,Luis,Romero Sanchez,24,Palma,Espana,M,2022-01-29,free,2503,706,486,True,Freelance developer
+75,Sara,Romero Ramos,44,,Espana,F,2021-03-20,premium,821,474,227,False,
+76,Alba,Diaz Gomez,30,Vitoria,Espana,F,2023-09-19,free,506,237,328,True,
+77,Antonio,Lopez Ortega,53,Sevilla,Espana,M,2021-11-03,creator,14448,812,75,True,
+78,Sara,Gomez Perez,25,Madrid,Espana,F,2021-05-02,free,4435,622,165,True,
+79,Claudia,Romero Alvarez,41,Barcelona,Espana,F,2023-06-13,free,530,64,372,True,Freelance developer
+80,Ana,Diaz Hernandez,24,Granada,Espana,F,2021-10-21,free,3933,642,75,True,Estudiante de IABD
+81,Patricia,Navarro Moreno,47,Malaga,Mexico,F,2020-08-22,premium,4903,893,335,True,Freelance developer
+82,Marcos,Jimenez Alvarez,43,Barcelona,Espana,M,2023-09-24,free,3399,281,191,False,
+83,Laura,Morales Morales,41,Palma,Espana,F,2023-02-24,premium,801,357,343,True,Amante del codigo limpio
+84,Alicia,Ramos Moreno,40,Palma,Espana,F,2022-09-14,free,2366,249,433,True,Freelance developer
+85,Andrea,Torres Ortega,,Granada,Mexico,F,2021-07-01,free,3525,49,92,True,Estudiante de IABD
+86,Manuel,Gil Diaz,22,Valladolid,Espana,M,2024-03-08,free,4649,563,110,True,Analista de datos
+87,Fernando,Lopez Martinez,27,Las Palmas,Espana,M,2021-07-11,creator,40074,473,338,True,Estudiante de Big Data
+88,Ivan,Hernandez Sanchez,36,Las Palmas,Mexico,M,2021-09-23,free,2837,66,112,True,
+89,Pablo,Moreno Jimenez,,Alicante,Espana,M,2022-02-17,free,2103,565,360,True,Freelance developer
+90,Laura,Hernandez Garcia,47,Vitoria,Espana,F,2023-03-20,premium,356,434,363,True,Estudiante de IABD
+91,Fernando,Molina Ruiz,23,Barcelona,Espana,M,2022-03-31,free,3779,556,40,True,Estudiante de IABD
+92,Manuel,Vazquez Sanchez,51,Granada,Espana,M,2024-01-29,free,4191,858,330,False,Explorando el mundo de la IA
+93,Manuel,Ortega Ortega,22,Cordoba,Espana,M,2024-03-25,creator,11018,597,389,True,Estudiante de Big Data
+94,Patricia,Alvarez Lopez,48,Valencia,Espana,NB,2020-04-25,free,1246,380,259,True,Analista de datos
+95,Roberto,Ramos Ramos,50,Las Palmas,Argentina,M,2020-03-25,free,749,480,465,False,Explorando el mundo de la IA
+96,Sara,Sanchez Jimenez,23,,Mexico,F,2022-06-15,free,3700,469,268,True,Data scientist en formacion
+97,Nuria,Gil Ramos,21,Valladolid,Espana,F,2020-07-12,premium,2781,591,347,True,Estudiante de IABD
+98,Irene,Lopez Dominguez,27,Valencia,Mexico,F,2023-09-18,free,2740,421,66,True,Desarrolladora de software | Python lover
+99,Fernando,Lopez Vazquez,45,Madrid,Espana,M,2021-03-14,free,4322,369,485,True,Explorando el mundo de la IA
+100,Miguel,Navarro Ortega,52,Granada,Espana,M,2021-11-20,free,838,917,392,True,Estudiante de Big Data

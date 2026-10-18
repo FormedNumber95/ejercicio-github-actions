@@ -1,0 +1,80 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# RAMA main  ·  Lo que llega aquí es la versión ESTABLE
+#   Pull request a main: batería COMPLETA en Linux y Windows (incluye métricas,
+#                        regresión y extremo a extremo)
+#   Push a main (merge): además, se ejecutan los cuadernos y se publican informes
+# ─────────────────────────────────────────────────────────────────────────────
+name: "3 · Main: batería completa y cuadernos"
+
+on:
+  pull_request:
+    branches: [main]
+    paths-ignore: ["docs/**", "**.md"]
+  push:
+    branches: [main]
+    paths-ignore: ["docs/**", "**.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  calidad:
+    name: Calidad de código (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - run: uv run ruff check . --output-format=github
+
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - run: uv run pytest -m smoke
+
+  bateria-completa:
+    name: Batería completa (${{ matrix.sistema }})
+    needs: [calidad, smoke]
+    runs-on: ${{ matrix.sistema }}
+    strategy:
+      fail-fast: false
+      matrix:
+        sistema: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Todos los tipos de test con cobertura
+        run: >
+          uv run pytest --cov --cov-report=term --cov-fail-under=95
+          --junitxml=informes/bateria-${{ matrix.sistema }}.xml
+      - name: Guardar el informe JUnit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-bateria-${{ matrix.sistema }}
+          path: informes/
+
+  cuadernos:
+    name: Cuadernos de principio a fin (nbmake)
+    needs: bateria-completa
+    # Solo tras integrar en main (push) o al lanzarlo a mano: es el job más lento
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Ejecutar los 6 cuadernos en orden
+        run: uv run pytest --nbmake notebooks --nbmake-timeout=300
+      - name: Publicar los gráficos generados
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: graficos-generados
+          path: output_graficos/

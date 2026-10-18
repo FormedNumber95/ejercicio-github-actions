@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# RAMAS feature/*  ·  Respuesta RÁPIDA mientras se desarrolla
+#   calidad (ruff)  ·  smoke  ->  unitarios
+# ─────────────────────────────────────────────────────────────────────────────
+name: "1 · Feature: lint + smoke + unitarios"
+
+on:
+  push:
+    branches: ["feature/**"]
+    paths-ignore: ["docs/**", "**.md"]   # cambiar solo documentación no lanza tests
+  workflow_dispatch:
+
+# Si se hacen dos push seguidos a la misma rama, se cancela la ejecución anterior
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  calidad:
+    name: Calidad de código (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Lint
+        run: uv run ruff check . --output-format=github
+
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: ¿Arranca el proyecto?
+        run: uv run pytest -m smoke
+
+  unitarios:
+    name: Unitarios
+    needs: smoke            # si el smoke falla, no se pierde tiempo con el resto
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Tests unitarios (bloques + parametrizados)
+        run: uv run pytest -m unit

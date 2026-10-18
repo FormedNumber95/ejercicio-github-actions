@@ -1,0 +1,8 @@
+# Finales de línea normalizados (LF en el repositorio) para que los runners
+# Linux y Windows de GitHub Actions trabajen con los mismos ficheros
+* text=auto
+
+# Ficheros binarios: no se tocan
+*.xlsx binary
+*.parquet binary
+*.png binary

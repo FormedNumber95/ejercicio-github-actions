@@ -1,0 +1,40 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CUALQUIER RAMA, pero solo si cambian los DATOS (filtro por rutas)
+#   esquema · valores · relaciones · métricas
+# Ejemplo: modificar data/usuarios.csv en una feature lanza este workflow
+# además del de la rama; modificar solo scripts/ no lo lanza.
+# ─────────────────────────────────────────────────────────────────────────────
+name: "4 · Calidad de datos (cambios en data/)"
+
+on:
+  push:
+    paths:
+      - "data/**"
+      - "tests/datos/**"
+      - "tests/metricas/**"
+  pull_request:
+    paths:
+      - "data/**"
+      - "tests/datos/**"
+      - "tests/metricas/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  datos:
+    name: ${{ matrix.marcador }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        marcador: [esquema, valores, relaciones, metricas]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - run: uv run pytest -m ${{ matrix.marcador }}

@@ -1,0 +1,40 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# LANZAMIENTO MANUAL desde la pestaña Actions (botón "Run workflow")
+#   Permite elegir la rama, el tipo de test y el sistema operativo.
+# ─────────────────────────────────────────────────────────────────────────────
+name: "5 · Manual: elegir tipo de test"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tipo:
+        description: Tipo de test que se quiere ejecutar
+        type: choice
+        default: smoke
+        options: [smoke, unit, esquema, valores, relaciones, integracion, metricas, regresion, e2e, todos]
+      sistema:
+        description: Sistema operativo del runner
+        type: choice
+        default: ubuntu-latest
+        options: [ubuntu-latest, windows-latest]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: ${{ inputs.tipo }} en ${{ inputs.sistema }}
+    runs-on: ${{ inputs.sistema }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Ejecutar pytest
+        shell: bash
+        env:
+          TIPO: ${{ inputs.tipo }}
+        run: |
+          if [ "$TIPO" = "todos" ]; then
+            uv run pytest
+          else
+            uv run pytest -m "$TIPO"
+          fi

@@ -1,0 +1,71 @@
+[project]
+name = "proyecto-analisis-red-social-ficticia"
+version = "0.1.0"
+description = "Pipeline de análisis de datos de una red social ficticia: testing y CI/CD con GitHub Actions"
+readme = "README.md"
+authors = [
+    { name = "amaiaDi", email = "amaia.di@icjardin.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy",
+    "pandas",
+    "openpyxl",
+    "pyarrow",
+    "fastparquet",
+    "plotly",
+    "kaleido",
+    "faker",
+    "pytest",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "nbdime>=4.0.4",
+    "nbstripout>=0.9.1",
+    "pytest-cov",
+    "ruff",
+    "nbmake",
+]
+
+# ── pytest ──────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["scripts"]
+addopts = ["--strict-markers", "-ra"]
+markers = [
+    "smoke: comprobaciones mínimas y muy rápidas de que el proyecto arranca",
+    "unit: tests unitarios de cada función del pipeline (incluye los test_bloque*.py)",
+    "esquema: estructura de los datos (columnas, orden y tipos)",
+    "valores: rangos y dominios válidos de los valores",
+    "relaciones: integridad referencial entre usuarios, publicaciones y conexiones",
+    "integracion: varias funciones encadenadas sobre los datos reales",
+    "metricas: indicadores de calidad de datos, de negocio y de rendimiento con umbrales",
+    "regresion: los resultados del pipeline no cambian respecto a una referencia guardada",
+    "e2e: proceso completo de extremo a extremo (generar datos -> pipeline -> informe)",
+]
+
+# ── Cobertura (pytest-cov) ──────────────────────────────────────────────────
+[tool.coverage.run]
+source = ["scripts"]
+omit = ["scripts/generate_notebooks.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+# ── Calidad de código (ruff) ────────────────────────────────────────────────
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+extend-exclude = ["notebooks", "scripts/generate_notebooks.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# Los tests añaden scripts/ al sys.path antes de importar el pipeline
+"tests/**" = ["E402"]

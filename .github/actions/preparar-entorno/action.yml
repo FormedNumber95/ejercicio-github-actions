@@ -1,0 +1,16 @@
+# Acción compuesta reutilizada por todos los workflows del proyecto.
+# Evita repetir en cada job los mismos pasos de preparación del entorno.
+name: Preparar entorno Python con uv
+description: Instala uv, la versión de Python de .python-version y las dependencias exactas de uv.lock
+
+runs:
+  using: composite
+  steps:
+    - name: Instalar uv (con caché de paquetes)
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+
+    - name: Instalar Python y dependencias (uv.lock)
+      shell: bash
+      run: uv sync --locked

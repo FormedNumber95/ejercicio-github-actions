@@ -1,0 +1,51 @@
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+## uv
+.venv/
+# uv.lock SÍ se versiona: CI instala exactamente esas versiones con 'uv sync --locked'
+
+# Caché de uv
+.uv-cache/
+uv.cache/
+
+## Build and packaging
+build/
+dist/
+*.egg-info/
+
+## Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+informes/
+
+## Ficheros generados por los cuadernos (se regeneran al ejecutarlos)
+# Solo se versionan los datos de partida que crea data/setup_datos.py
+data/*.parquet
+data/publicaciones_limpio.csv
+data/dataset_procesado.csv
+data/usuarios_grande.csv
+data/comparativa_formatos.csv
+data/tipos_categoricos.csv
+output_graficos/
+
+## Jupyter
+.ipynb_checkpoints/
+
+## IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+## Environment files
+.env
+.env.*
+!.env.example
