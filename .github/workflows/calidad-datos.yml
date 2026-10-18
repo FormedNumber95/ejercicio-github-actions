@@ -1,6 +1,6 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # CUALQUIER RAMA, pero solo si cambian los DATOS (filtro por rutas)
-#   esquema · valores · relaciones · métricas
+#   esquema · valores · relaciones · contratos · métricas
 # Ejemplo: modificar data/usuarios.csv en una feature lanza este workflow
 # además del de la rama; modificar solo scripts/ no lo lanza.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -10,12 +10,16 @@ on:
   push:
     paths:
       - "data/**"
+      - "scripts/contratos.py"
       - "tests/datos/**"
+      - "tests/contratos/**"
       - "tests/metricas/**"
   pull_request:
     paths:
       - "data/**"
+      - "scripts/contratos.py"
       - "tests/datos/**"
+      - "tests/contratos/**"
       - "tests/metricas/**"
   workflow_dispatch:
 
@@ -33,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        marcador: [esquema, valores, relaciones, metricas]
+        marcador: [esquema, valores, relaciones, contratos, metricas]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/preparar-entorno
