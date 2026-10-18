@@ -18,6 +18,7 @@ dependencies = [
     "faker",
     "pytest",
     "pandera>=0.34.1",
+    "scikit-learn>=1.9.1",
 ]
 
 [tool.uv]
@@ -48,6 +49,7 @@ markers = [
     "metricas: indicadores de calidad de datos, de negocio y de rendimiento con umbrales",
     "regresion: los resultados del pipeline no cambian respecto a una referencia guardada",
     "e2e: proceso completo de extremo a extremo (generar datos -> pipeline -> informe)",
+    "modelo: modelo guardado en modelos/ (rendimiento, reproducibilidad, fuga de datos y comportamiento)",
 ]
 
 # ── Cobertura (pytest-cov) ──────────────────────────────────────────────────

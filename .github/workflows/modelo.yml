@@ -1,0 +1,77 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CUALQUIER RAMA, si cambia algo de lo que depende el MODELO (filtro por rutas)
+#   tests del modelo guardado  ->  reentrenar y comprobar que se reproduce
+# ─────────────────────────────────────────────────────────────────────────────
+name: "6 · Modelo: tests y reentrenamiento"
+
+on:
+  push:
+    paths:
+      - "modelos/**"
+      - "scripts/modelo.py"
+      - "scripts/contratos.py"
+      - "notebooks/Bloque_07_Modelo.ipynb"
+      - "tests/modelo/**"
+      - "data/**"
+  pull_request:
+    paths:
+      - "modelos/**"
+      - "scripts/modelo.py"
+      - "scripts/contratos.py"
+      - "notebooks/Bloque_07_Modelo.ipynb"
+      - "tests/modelo/**"
+      - "data/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  tests-modelo:
+    name: Tests del modelo guardado
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Rendimiento, reproducibilidad, fuga de datos y comportamiento
+        run: uv run pytest -m modelo
+
+  reentrenar:
+    name: Reentrenar y comprobar que se reproduce
+    needs: tests-modelo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+
+      - name: Ejecutar el cuaderno de entrenamiento
+        run: uv run pytest --nbmake notebooks/Bloque_07_Modelo.ipynb --nbmake-timeout=300
+
+      - name: Parámetros y métricas en la página del workflow
+        if: always()
+        run: |
+          uv run python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          meta = json.load(open("modelos/metadatos_modelo.json", encoding="utf-8"))
+          print(f"### Modelo reentrenado: `{meta['tipo']}` con parámetros `{meta['parametros']}`")
+          print("| Métrica (prueba) | Valor |")
+          print("|---|---|")
+          for nombre, valor in meta["metricas_test"].items():
+              print(f"| {nombre} | {valor} |")
+          EOF
+
+      - name: ¿Coinciden con los del modelo versionado?
+        # Si el reentrenamiento da otro modelo u otras métricas, el JSON cambia y este paso falla:
+        # hay que reentrenar en local, revisar el cambio y hacer commit del modelo nuevo.
+        run: git diff --exit-code modelos/metadatos_modelo.json
+
+      - name: Guardar el modelo reentrenado
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: modelo-reentrenado
+          path: modelos/

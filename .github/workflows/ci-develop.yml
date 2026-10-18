@@ -49,6 +49,7 @@ jobs:
           - { id: unitarios, nombre: "Unitarios", marcador: "unit" }
           - { id: datos, nombre: "Datos: esquema, valores, relaciones y contratos", marcador: "esquema or valores or relaciones or contratos" }
           - { id: integracion, nombre: "Integración", marcador: "integracion" }
+          - { id: modelo, nombre: "Modelo", marcador: "modelo" }
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/preparar-entorno
@@ -70,7 +71,7 @@ jobs:
       - uses: ./.github/actions/preparar-entorno
       - name: Tests con medición de cobertura
         run: >
-          uv run pytest -m "smoke or unit or esquema or valores or relaciones or contratos or integracion"
+          uv run pytest -m "smoke or unit or esquema or valores or relaciones or contratos or integracion or modelo"
           --cov --cov-report=term --cov-report=html:informes/cobertura --cov-fail-under=90
       - name: Resumen de cobertura en la página del workflow
         if: always()

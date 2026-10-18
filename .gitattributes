@@ -6,3 +6,4 @@
 *.xlsx binary
 *.parquet binary
 *.png binary
+*.joblib binary

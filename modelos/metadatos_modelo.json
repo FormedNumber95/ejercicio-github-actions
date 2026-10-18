@@ -1,0 +1,30 @@
+{
+  "objetivo": "alto_alcance",
+  "umbral_alto_alcance": 12000,
+  "tipo": "logistica",
+  "parametros": {
+    "C": 1.0
+  },
+  "variables": [
+    "likes",
+    "comentarios",
+    "compartidos",
+    "seguidores",
+    "seguidos",
+    "publicaciones_totales",
+    "edad",
+    "n_hashtags",
+    "mes",
+    "tipo_contenido",
+    "tipo_cuenta"
+  ],
+  "semilla": 42,
+  "proporcion_test": 0.25,
+  "metricas_test": {
+    "accuracy": 0.7733,
+    "precision": 0.8286,
+    "recall": 0.725,
+    "f1": 0.7733,
+    "roc_auc": 0.8779
+  }
+}
