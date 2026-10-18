@@ -54,9 +54,9 @@ def ficheros_con_regla_lfs(raiz_proyecto, ficheros_versionados):
 
 
 def test_ningun_fichero_grande_fuera_de_lfs(ficheros_versionados):
-    limite = LIMITE_MB * 1024 * 1024
+    limite = LIMITE_MB * 1_000_000   # MB decimales, como los muestra 'git lfs ls-files'
     grandes = {
-        ruta: f"{tamano / 1024 / 1024:.1f} MB" for ruta, tamano in ficheros_versionados.items() if tamano > limite
+        ruta: f"{tamano / 1_000_000:.1f} MB" for ruta, tamano in ficheros_versionados.items() if tamano > limite
     }
     assert not grandes, (
         f"Ficheros de más de {LIMITE_MB} MB versionados sin Git LFS: {grandes}. "
