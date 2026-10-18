@@ -282,7 +282,7 @@ def engagement_por_contenido(df_merged):
         n_publicaciones=("engagement_rate", "size"),
         engagement_medio=("engagement_rate", "mean"),
     )
-    return resumen.sort_values("engagement_medio", ascending=False)
+    return resumen.sort_values("engagement_medio")
 
 
 def guardar_parquet(df, ruta):
