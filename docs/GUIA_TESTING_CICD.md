@@ -110,6 +110,8 @@ Conceptos de GitHub Actions que aparecen en los workflows:
 
 ## 4. Práctica guiada
 
+> **Cada rama `feature/…` trae un error a propósito.** `main` y `develop` funcionan correctamente y son el punto de referencia. Antes de corregir nada, mira en GitHub Actions qué workflow falla y por qué. El cuaderno **`Practica_Ramas_Testing_CICD.ipynb`** (junto al bundle) recorre rama a rama los pasos en VS Code y en GitHub: punto de referencia, error en Actions, reproducción en local, pista y corrección.
+
 ### 4.0 Preparación
 
 1. Sigue `INSTRUCCIONES.md` (junto al fichero `red_social_ficticia.bundle`) para reconstruir el repositorio con todas sus ramas y subirlo a tu GitHub.
@@ -125,7 +127,7 @@ Conceptos de GitHub Actions que aparecen en los workflows:
 
 La rama añade la función `engagement_por_contenido` a `scripts/pipeline.py` con tests unitarios parametrizados.
 
-1. Comprueba en Actions que en esta rama **solo** se ha lanzado el workflow 1.
+1. Comprueba en Actions que en esta rama **solo** se ha lanzado el workflow 1, y que está en rojo. Corrige el error (cuaderno, sección 4) hasta dejarlo en verde.
 2. Abre un **pull request** de la feature hacia `develop`. ¿Qué workflow se lanza ahora? ¿Qué jobs nuevos aparecen?
 3. Descarga el artefacto `cobertura-html` y localiza las líneas de `pipeline.py` sin cubrir.
 4. Haz el merge y observa el push a `develop`.
@@ -159,7 +161,7 @@ Modifica solo `docs/GUIA_TESTING_CICD.md` en una rama `feature/` y haz push. Com
 
 Un **contrato** declara en un único sitio (`scripts/contratos.py`) qué debe cumplir cada conjunto de datos: columnas, tipos, rangos, categorías, claves únicas y reglas entre columnas. `construir_dataset_validado()` lo comprueba al **entrar** los datos y al **salir** el resultado: si algo no cumple, el pipeline se detiene en lugar de producir resultados incorrectos.
 
-1. Cambia a la rama y ejecuta `uv run pytest -m contratos -v`. Fíjate en que la mayoría de tests **rompen** los datos a propósito y comprueban que el contrato lo detecta.
+1. Cambia a la rama y ejecuta `uv run pytest -m contratos -v`. Fíjate en que la mayoría de tests **rompen** los datos a propósito y comprueban que el contrato lo detecta. Algunos fallan: es el error de la rama (cuaderno, sección 6). Corrígelo antes de seguir.
 2. En una consola de Python, carga `data/usuarios.csv`, pon una edad de `150` y un `tipo_cuenta` `"gold"`, y valida con `CONTRATO_USUARIOS.validate(df, lazy=True)`. ¿Qué información da el error? ¿Qué cambia si quitas `lazy=True`?
 3. ¿Qué diferencia hay entre los tests de `tests/datos/` y los contratos? Pista: ¿cuándo se comprueba cada uno y qué pasa si llegan datos nuevos por otra vía?
 4. Abre un PR de la rama hacia `develop` y localiza el job **Contratos de datos** en los workflows 1 y 2.
@@ -168,6 +170,7 @@ Un **contrato** declara en un único sitio (`scripts/contratos.py`) qué debe cu
 
 La rama añade un modelo que predice si una publicación tendrá **alto alcance** (12 000 visualizaciones o más). Incluye su cuaderno de entrenamiento, el modelo guardado en `modelos/` con sus **parámetros y métricas** (`metadatos_modelo.json`), sus tests y su propio workflow.
 
+0. Antes de nada, corrige el error de la rama (cuaderno, sección 7): el workflow 6 está en rojo.
 1. Ejecuta `notebooks/Bloque_07_Modelo.ipynb`. ¿Qué candidato se elige y por qué no se usa el conjunto de prueba para elegirlo?
 2. Lee `tests/modelo/test_modelo.py` y explica qué riesgo cubre cada test: rendimiento mínimo, mejora sobre la referencia, reproducibilidad, **fuga de datos**, invarianza y direccionalidad.
 3. Añade un candidato a `CANDIDATOS` en el cuaderno (por ejemplo, `"logistica": {"C": 0.1}`), vuelve a ejecutarlo y observa el cambio en `metadatos_modelo.json` con `git diff`. Haz commit y push: ¿qué workflows se lanzan? ¿Qué muestra el resumen del workflow 6?
