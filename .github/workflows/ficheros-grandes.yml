@@ -7,6 +7,7 @@ name: "7 · Ficheros grandes: ninguno fuera de Git LFS"
 
 on:
   push:
+    branches: ["**"]          # solo ramas: subir una etiqueta no lanza este workflow
     paths-ignore: ["docs/**", "**.md"]
   pull_request:
     paths-ignore: ["docs/**", "**.md"]
