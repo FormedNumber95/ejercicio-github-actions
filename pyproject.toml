@@ -55,7 +55,6 @@ markers = [
 # ── Cobertura (pytest-cov) ──────────────────────────────────────────────────
 [tool.coverage.run]
 source = ["scripts"]
-omit = ["scripts/generate_notebooks.py"]
 
 [tool.coverage.report]
 show_missing = true
@@ -65,7 +64,7 @@ skip_empty = true
 [tool.ruff]
 line-length = 120
 target-version = "py314"
-extend-exclude = ["notebooks", "scripts/generate_notebooks.py"]
+extend-exclude = ["notebooks"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B"]
