@@ -17,6 +17,7 @@ dependencies = [
     "kaleido",
     "faker",
     "pytest",
+    "pandera>=0.34.1",
 ]
 
 [tool.uv]
@@ -42,6 +43,7 @@ markers = [
     "esquema: estructura de los datos (columnas, orden y tipos)",
     "valores: rangos y dominios válidos de los valores",
     "relaciones: integridad referencial entre usuarios, publicaciones y conexiones",
+    "contratos: contratos de datos con pandera en la entrada y la salida del pipeline",
     "integracion: varias funciones encadenadas sobre los datos reales",
     "metricas: indicadores de calidad de datos, de negocio y de rendimiento con umbrales",
     "regresion: los resultados del pipeline no cambian respecto a una referencia guardada",

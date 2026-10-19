@@ -1,8 +1,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # RAMAS feature/*  ·  Respuesta RÁPIDA mientras se desarrolla
-#   calidad (ruff)  ·  smoke  ->  unitarios
+#   calidad (ruff)  ·  smoke  ->  unitarios | contratos
 # ─────────────────────────────────────────────────────────────────────────────
-name: "1 · Feature: lint + smoke + unitarios"
+name: "1 · Feature: lint + smoke + unitarios + contratos"
 
 on:
   push:
@@ -46,3 +46,13 @@ jobs:
       - uses: ./.github/actions/preparar-entorno
       - name: Tests unitarios (bloques + parametrizados)
         run: uv run pytest -m unit
+
+  contratos:
+    name: Contratos de datos
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-entorno
+      - name: Contratos de entrada, salida y entre tablas (pandera)
+        run: uv run pytest -m contratos
