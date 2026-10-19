@@ -3,7 +3,7 @@
 * text=auto
 
 # ── Git LFS ───────────────────────────────────────────────────────────────────
-# Práctica de ficheros grandes: docs/GUIA_FICHEROS_GRANDES.md
+# Práctica de ficheros grandes (ver el documento de la práctica).
 # Las reglas de LFS las añade el comando 'git lfs track' al final de este
 # fichero. Ejemplos de las que se usarán en la práctica (NO están activas):
 #
