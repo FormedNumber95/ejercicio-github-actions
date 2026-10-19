@@ -201,7 +201,7 @@ y selecciona `C:\venv_redsocial\Scripts\python.exe` como intérprete en VS Code 
 
 Además de los tests de cada bloque, el proyecto incluye una batería organizada por **tipos de test** (smoke, unitarios, esquema, valores, relaciones, integración, métricas, regresión y extremo a extremo) y **workflows de GitHub Actions** que lanzan unos u otros según la rama (`feature/*`, `develop`, `main`) y los ficheros modificados.
 
-Toda la información y la práctica guiada están en [docs/GUIA_TESTING_CICD.md](docs/GUIA_TESTING_CICD.md).
+La práctica guiada está en el documento `PRACTICA_TESTING_CICD.md`, que se entrega junto al repositorio.
 
 ```powershell
 uv run pytest -m smoke          # un tipo de test
