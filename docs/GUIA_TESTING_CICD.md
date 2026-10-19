@@ -4,6 +4,18 @@
 
 En esta práctica vas a trabajar con **distintos tipos de tests** sobre el pipeline que has construido durante el curso y a ver cómo **GitHub Actions** lanza unos u otros según la **rama** en la que hagas push y según **qué ficheros** cambies.
 
+### Ramas del repositorio
+
+| Rama | Contenido |
+|---|---|
+| `main` | Versión estable: pipeline, batería de tests y workflows |
+| `develop` | Integración del trabajo de todo el equipo (parte igual que `main`) |
+| `feature/engagement-por-contenido` | Una función nueva con sus tests (tarea 4.1) |
+| `feature/ejemplo-regresion` | Un cambio que pasa los unitarios pero no la regresión (tarea 4.3) |
+| `feature/contratos-datos` | Contratos de datos con pandera (tarea 4.6) |
+| `feature/modelo-alcance` | Modelo de clasificación con su cuaderno, sus tests y su CI. Parte de `feature/contratos-datos` (tarea 4.7) |
+| `feature/ficheros-grandes` | Material de la **próxima práctica** (Git LFS): `docs/GUIA_FICHEROS_GRANDES.md` |
+
 ---
 
 ## 1. Tipos de test del proyecto
@@ -21,6 +33,8 @@ Cada tipo de test está en su carpeta y tiene un **marcador** de pytest. Con `-m
 | Métricas | `tests/metricas/` | `metricas` | Indicadores con umbral: calidad, negocio y rendimiento | ≤ 10 % de nulos por columna; engagement en < 1 s con 200 000 filas |
 | Regresión | `tests/regresion/` | `regresion` | Que los resultados no cambian sin querer respecto a una referencia | El top 5 de creadores sigue siendo el mismo |
 | Extremo a extremo | `tests/e2e/` | `e2e` | El proceso completo: generar datos → pipeline → entregables | Se generan el Parquet y el dashboard HTML |
+| Contratos *(rama `feature/contratos-datos`)* | `tests/contratos/` | `contratos` | Que los datos cumplen sus contratos (pandera) en la entrada y la salida del pipeline, y que los contratos **rechazan** datos incorrectos | Una edad de 150 detiene el pipeline |
+| Modelo *(rama `feature/modelo-alcance`)* | `tests/modelo/` | `modelo` | Que el modelo guardado rinde lo suficiente, se reproduce, no tiene fuga de datos y se comporta con lógica | ROC AUC ≥ 0.80 y mejor que el modelo trivial |
 | Cuadernos | `notebooks/*.ipynb` | — (`--nbmake`) | Que los 6 cuadernos se ejecutan de principio a fin | `pytest --nbmake notebooks` |
 | Calidad de código | todo el proyecto | — (`ruff`) | Estilo y errores comunes | imports sin usar, líneas demasiado largas |
 | Cobertura | `scripts/` | — (`--cov`) | Qué porcentaje del código ejecutan los tests | mínimo 90 % en develop y 95 % en main |
@@ -60,6 +74,7 @@ uv run python tests/regresion/actualizar_referencia.py   # solo si un cambio de 
             ──push──▶  [3] lo anterior + cuadernos (nbmake) + gráficos       (≈ 4 min)
 
  cualquier rama, si cambia data/ ──▶ [4] esquema | valores | relaciones | métricas
+ cualquier rama, si cambia el modelo o lo que lo alimenta ──▶ [6] tests del modelo → reentrenar
  cambios solo en docs/ o *.md   ──▶ no se lanza nada (paths-ignore)
  pestaña Actions → Run workflow  ──▶ [5] eliges rama, tipo de test y sistema operativo
 ```
@@ -71,6 +86,10 @@ uv run python tests/regresion/actualizar_referencia.py   # solo si un cambio de 
 | 3 · Main | `.github/workflows/ci-main.yml` | PR o push a `main` | todo en Linux y Windows con cobertura ≥ 95 %; en push, también los cuadernos |
 | 4 · Calidad de datos | `.github/workflows/calidad-datos.yml` | push o PR que cambie `data/**` o los tests de datos | esquema, valores, relaciones y métricas |
 | 5 · Manual | `.github/workflows/manual.yml` | botón *Run workflow* | el tipo de test y el sistema que elijas |
+| 6 · Modelo *(rama `feature/modelo-alcance`)* | `.github/workflows/modelo.yml` | push o PR que cambie `modelos/`, el código o el cuaderno del modelo, sus tests o `data/` | tests del modelo y reentrenamiento que comprueba que se obtienen los mismos parámetros y métricas |
+| 7 · Ficheros grandes *(rama `feature/ficheros-grandes`)* | `.github/workflows/ficheros-grandes.yml` | cualquier push o PR | ningún fichero de más de 2 MB fuera de Git LFS (próxima práctica) |
+
+Las ramas `feature/contratos-datos` y `feature/modelo-alcance` también amplían los workflows 1, 2, 4 y 5 con sus nuevos tipos de test. Al integrarlas en `develop`, esas ampliaciones pasan a formar parte del proyecto.
 
 Conceptos de GitHub Actions que aparecen en los workflows:
 
@@ -91,13 +110,16 @@ Conceptos de GitHub Actions que aparecen en los workflows:
 
 ## 4. Práctica guiada
 
+> **Cada rama `feature/…` trae un error a propósito.** `main` y `develop` funcionan correctamente y son el punto de referencia. Antes de corregir nada, mira en GitHub Actions qué workflow falla y por qué. El cuaderno **`Practica_Ramas_Testing_CICD.ipynb`** (junto al bundle) recorre rama a rama los pasos en VS Code y en GitHub: punto de referencia, error en Actions, reproducción en local, pista y corrección.
+
 ### 4.0 Preparación
 
-1. Crea un repositorio **vacío** en tu cuenta de GitHub (sin README).
-2. Sube las tres ramas del proyecto:
+1. Sigue `INSTRUCCIONES.md` (junto al fichero `red_social_ficticia.bundle`) para reconstruir el repositorio con todas sus ramas y subirlo a tu GitHub.
+2. En tu copia de trabajo, prepara el entorno y protege los cuadernos para que nunca se suban con salidas:
    ```powershell
-   git remote add origin https://github.com/<tu-usuario>/<tu-repositorio>.git
-   git push -u origin main develop feature/engagement-por-contenido
+   uv sync
+   uv run nbstripout --install     # limpia las salidas de los .ipynb al hacer commit
+   uv run pytest -m smoke
    ```
 3. Abre la pestaña **Actions** y observa qué workflows se han lanzado para cada rama y cuáles no.
 
@@ -105,7 +127,7 @@ Conceptos de GitHub Actions que aparecen en los workflows:
 
 La rama añade la función `engagement_por_contenido` a `scripts/pipeline.py` con tests unitarios parametrizados.
 
-1. Comprueba en Actions que en esta rama **solo** se ha lanzado el workflow 1.
+1. Comprueba en Actions que en esta rama **solo** se ha lanzado el workflow 1, y que está en rojo. Corrige el error (cuaderno, sección 4) hasta dejarlo en verde.
 2. Abre un **pull request** de la feature hacia `develop`. ¿Qué workflow se lanza ahora? ¿Qué jobs nuevos aparecen?
 3. Descarga el artefacto `cobertura-html` y localiza las líneas de `pipeline.py` sin cubrir.
 4. Haz el merge y observa el push a `develop`.
@@ -135,7 +157,27 @@ Esta rama cambia `top_creadores` para usar la **mediana** en lugar de la **media
 
 Modifica solo `docs/GUIA_TESTING_CICD.md` en una rama `feature/` y haz push. Comprueba que **no** se lanza ningún workflow y explica por qué (`paths-ignore`).
 
-### 4.6 Proteger main (opcional, en tu repositorio)
+### 4.6 Contratos de datos (rama `feature/contratos-datos`)
+
+Un **contrato** declara en un único sitio (`scripts/contratos.py`) qué debe cumplir cada conjunto de datos: columnas, tipos, rangos, categorías, claves únicas y reglas entre columnas. `construir_dataset_validado()` lo comprueba al **entrar** los datos y al **salir** el resultado: si algo no cumple, el pipeline se detiene en lugar de producir resultados incorrectos.
+
+1. Cambia a la rama y ejecuta `uv run pytest -m contratos -v`. Fíjate en que la mayoría de tests **rompen** los datos a propósito y comprueban que el contrato lo detecta. Algunos fallan: es el error de la rama (cuaderno, sección 6). Corrígelo antes de seguir.
+2. En una consola de Python, carga `data/usuarios.csv`, pon una edad de `150` y un `tipo_cuenta` `"gold"`, y valida con `CONTRATO_USUARIOS.validate(df, lazy=True)`. ¿Qué información da el error? ¿Qué cambia si quitas `lazy=True`?
+3. ¿Qué diferencia hay entre los tests de `tests/datos/` y los contratos? Pista: ¿cuándo se comprueba cada uno y qué pasa si llegan datos nuevos por otra vía?
+4. Abre un PR de la rama hacia `develop` y localiza el job **Contratos de datos** en los workflows 1 y 2.
+
+### 4.7 El modelo y su CI (rama `feature/modelo-alcance`)
+
+La rama añade un modelo que predice si una publicación tendrá **alto alcance** (12 000 visualizaciones o más). Incluye su cuaderno de entrenamiento, el modelo guardado en `modelos/` con sus **parámetros y métricas** (`metadatos_modelo.json`), sus tests y su propio workflow.
+
+0. Antes de nada, corrige el error de la rama (cuaderno, sección 7): el workflow 6 está en rojo.
+1. Ejecuta `notebooks/Bloque_07_Modelo.ipynb`. ¿Qué candidato se elige y por qué no se usa el conjunto de prueba para elegirlo?
+2. Lee `tests/modelo/test_modelo.py` y explica qué riesgo cubre cada test: rendimiento mínimo, mejora sobre la referencia, reproducibilidad, **fuga de datos**, invarianza y direccionalidad.
+3. Añade un candidato a `CANDIDATOS` en el cuaderno (por ejemplo, `"logistica": {"C": 0.1}`), vuelve a ejecutarlo y observa el cambio en `metadatos_modelo.json` con `git diff`. Haz commit y push: ¿qué workflows se lanzan? ¿Qué muestra el resumen del workflow 6?
+4. Guarda a propósito el modelo `base` (ver el apartado *Para practicar* del cuaderno) y lanza `uv run pytest -m modelo`. ¿Qué tests fallan? No hagas commit de ese modelo.
+5. Integra las ramas en orden: primero `feature/contratos-datos` → `develop` y después `feature/modelo-alcance` → `develop`. ¿Por qué en ese orden?
+
+### 4.8 Proteger main (opcional, en tu repositorio)
 
 En **Settings → Branches → Add branch ruleset** protege `main`:
 * *Require a pull request before merging*.
@@ -143,10 +185,11 @@ En **Settings → Branches → Add branch ruleset** protege `main`:
 
 Repite la tarea 4.3: ahora GitHub **no permite** hacer el merge mientras la regresión falle.
 
-### 4.7 Ampliación
+### 4.9 Ampliación
 
 * Añade un test de **valores** nuevo (por ejemplo, que `seguidos` nunca supere 1000) y comprueba qué workflows lo ejecutan.
 * Añade una métrica nueva con umbral en `tests/metricas/`.
+* Añade una regla nueva al contrato de publicaciones y un test que compruebe que se rechaza el dato incorrecto.
 * Añade `macos-latest` a la matriz del workflow 3.
 
 ---
@@ -154,6 +197,8 @@ Repite la tarea 4.3: ahora GitHub **no permite** hacer el merge mientras la regr
 ## 5. Entrega
 
 Un documento breve (o el enlace a tu repositorio) con:
-1. Capturas de la pestaña Actions de las tareas 4.1 a 4.5, indicando qué workflow se lanzó en cada caso y por qué.
+1. Capturas de la pestaña Actions de las tareas 4.1 a 4.5 y 4.7, indicando qué workflow se lanzó en cada caso y por qué.
 2. El mensaje de error de la tarea 4.2 y el commit que lo corrige.
-3. La respuesta razonada de la tarea 4.3.
+3. Las respuestas razonadas de las tareas 4.3, 4.6 (punto 3) y 4.7 (puntos 1, 2 y 5).
+
+> **Próxima práctica:** ficheros grandes y Git LFS, en la rama `feature/ficheros-grandes` (`docs/GUIA_FICHEROS_GRANDES.md`).

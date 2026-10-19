@@ -8,6 +8,7 @@ name: "4 · Calidad de datos (cambios en data/)"
 
 on:
   push:
+    branches: ["**"]          # solo ramas: subir una etiqueta no lanza este workflow
     paths:
       - "data/**"
       - "tests/datos/**"
