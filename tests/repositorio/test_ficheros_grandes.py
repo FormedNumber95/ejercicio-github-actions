@@ -60,7 +60,7 @@ def test_ningun_fichero_grande_fuera_de_lfs(ficheros_versionados):
     }
     assert not grandes, (
         f"Ficheros de más de {LIMITE_MB} MB versionados sin Git LFS: {grandes}. "
-        "Sácalos del commit y usa 'git lfs track' (ver docs/GUIA_FICHEROS_GRANDES.md)."
+        "Sácalos del commit con 'git rm --cached' y vuelve a añadirlos tras 'git lfs track'."
     )
 
 
