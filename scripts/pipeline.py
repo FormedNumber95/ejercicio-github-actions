@@ -271,6 +271,20 @@ def resumen_por_ciudad(df_merged):
     return resumen.sort_values("n_publicaciones", ascending=False)
 
 
+def engagement_por_contenido(df_merged):
+    """
+    Recibe el DataFrame combinado (con 'engagement_rate'). Devuelve un
+    DataFrame con una fila por 'tipo_contenido' (el índice) y las columnas
+    'n_publicaciones' y 'engagement_medio', ordenado por 'engagement_medio'
+    de mayor a menor. No modifica el DataFrame original.
+    """
+    resumen = df_merged.groupby("tipo_contenido").agg(
+        n_publicaciones=("engagement_rate", "size"),
+        engagement_medio=("engagement_rate", "mean"),
+    )
+    return resumen.sort_values("engagement_medio",ascending=False)
+
+
 def guardar_parquet(df, ruta):
     """
     Guarda el DataFrame 'df' en formato Parquet en 'ruta' con compresión
