@@ -49,3 +49,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+## Material de la práctica (documento y bundle): solo para consulta en local
+docs/
