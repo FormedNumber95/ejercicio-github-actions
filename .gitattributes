@@ -1,7 +1,6 @@
 # Finales de línea normalizados (LF en el repositorio) para que los runners
 # Linux y Windows de GitHub Actions trabajen con los mismos ficheros
 * text=auto
-
 # ── Git LFS ───────────────────────────────────────────────────────────────────
 # Práctica de ficheros grandes (ver el documento de la práctica).
 # Las reglas de LFS las añade el comando 'git lfs track' al final de este
