@@ -1,0 +1,54 @@
+{
+  "fichero": "modelo_alcance_bosque.skops",
+  "tarea": "alto alcance de una publicación (visualizaciones >= 12 000)",
+  "tipo": "RandomForestClassifier (Pipeline con imputación y one-hot)",
+  "formato": "skops (formato seguro de scikit-learn: no ejecuta código al cargarse)",
+  "tipos_de_confianza_para_cargar": [
+    "numpy.dtype",
+    "sklearn.tree._tree.Tree"
+  ],
+  "parametros": {
+    "n_estimators": 1100,
+    "min_samples_leaf": 1,
+    "random_state": 42
+  },
+  "variables_numericas": [
+    "likes",
+    "comentarios",
+    "compartidos",
+    "seguidores",
+    "seguidos",
+    "publicaciones_totales",
+    "edad",
+    "n_hashtags",
+    "mes"
+  ],
+  "variables_categoricas": [
+    "tipo_contenido",
+    "tipo_cuenta"
+  ],
+  "variables_excluidas": [
+    "visualizaciones",
+    "engagement_rate"
+  ],
+  "metricas_test": {
+    "accuracy": 0.76,
+    "f1": 0.75,
+    "roc_auc": 0.8711
+  },
+  "particion": {
+    "proporcion_test": 0.25,
+    "estratificada": true,
+    "semilla": 42
+  },
+  "versiones": {
+    "python": "3.14.7",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3",
+    "skops": "0.16.0"
+  },
+  "tamano_bytes": 2999475,
+  "sha256": "f96dffcf40f80e59e6f442612fbb9ff6e208e6e55c5ba3af7d47243865f2f154",
+  "entrenado": "2026-10-20"
+}
