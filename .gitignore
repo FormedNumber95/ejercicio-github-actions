@@ -52,3 +52,8 @@ Thumbs.db
 
 ## Material de la práctica (documento y bundle): solo para consulta en local
 docs/
+
+
+# Recursos descargados de Kaggle y Hugging Face (no se versionan)
+data/externos/
+modelos/externos/
