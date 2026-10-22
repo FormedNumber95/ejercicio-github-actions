@@ -1,0 +1,4 @@
+[core]
+    remote = almacen
+['remote "almacen"']
+    url = /home/iabd/dvcstore/red-social
